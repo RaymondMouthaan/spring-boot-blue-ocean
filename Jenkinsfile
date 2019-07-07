@@ -17,7 +17,10 @@ pipeline {
       agent { dockerfile true }
       steps {
         script {
-          dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", "--build-arg PACKAGE_VERSION=${branchVersion} .")
+          // Build image with Jenkins' docker-plugin
+          withDockerServer([uri: "tcp://denpasar.indonesia:2575"]) {
+            dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
+          }
         }
 
       }
