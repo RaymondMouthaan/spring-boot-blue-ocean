@@ -12,7 +12,9 @@ pipeline {
         sh 'mvn clean package -U'
       }
     }
+
     stage('Docker Build') {
+      agent { dockerfile true }
       steps {
         script {
           dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", "--build-arg PACKAGE_VERSION=${branchVersion} .")
