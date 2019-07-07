@@ -15,7 +15,10 @@ pipeline {
     stage('Docker Build') {
       steps {
         script {
-          dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
+          // Build image with Jenkins' docker-plugin
+          withDockerServer([uri: "tcp://denpasar.indonesia:2575"]) {
+            dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
+          }
         }
 
       }
