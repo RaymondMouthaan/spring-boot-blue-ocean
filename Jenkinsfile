@@ -15,7 +15,7 @@ pipeline {
     stage('Docker Build') {
       steps {
         script {
-          dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", "--build-arg PACKAGE_VERSION=${branchVersion} .")
+          dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
         }
 
       }
