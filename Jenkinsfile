@@ -15,15 +15,15 @@ pipeline {
     stage('Docker Build') {
       parallel {
         stage('Docker Build') {
-          agent {
-            dockerfile true
-          }
+//          agent {
+//            dockerfile true
+//          }
           steps {
             script {
               pwd
               ls -al
 
-              // dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
+              dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
             }
 
           }
