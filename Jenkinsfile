@@ -13,15 +13,24 @@ pipeline {
       }
     }
     stage('Docker Build') {
-      agent {
-        dockerfile true
-      }
-      steps {
-        sh 'pwd'
-        script {
-          dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
-        }
+      parallel {
+        stage('Docker Build') {
+          agent {
+            dockerfile true
+          }
+          steps {
+            script {
+              dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
+            }
 
+          }
+        }
+        stage('Test') {
+          steps {
+            sh 'pwd'
+            sh 'ls -al'
+          }
+        }
       }
     }
   }
