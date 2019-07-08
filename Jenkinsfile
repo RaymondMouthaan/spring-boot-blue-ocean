@@ -20,7 +20,10 @@ pipeline {
           }
           steps {
             script {
-              dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
+              pwd
+              ls -al
+
+              // dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
             }
 
           }
