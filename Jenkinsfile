@@ -52,6 +52,11 @@ pipeline {
         }
       }
     }
+    stage('Docker Commands') {
+      steps {
+        sh 'docker version'
+      }
+    }
   }
   post {
     always {
