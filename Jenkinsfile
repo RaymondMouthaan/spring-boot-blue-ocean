@@ -22,7 +22,7 @@ pipeline {
 //
 //                    }
 //                }
-                stage('Test') {
+//                stage('Test') {
                     agent {
                         dockerfile {
                             filename 'Dockerfile'
@@ -32,7 +32,7 @@ pipeline {
                     steps {
                         sh 'pwd'
                     }
-                }
+//                }
 //            }
         }
     }
