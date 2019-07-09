@@ -14,18 +14,17 @@ pipeline {
     }
     stage('Docker Build') {
       parallel {
-        stage('Docker Build') {
+        stage('Docker Build Test') {
           steps {
             script {
-              dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
+              dockerImageTest = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
             }
 
           }
         }
-        stage('Test') {
+        stage('Docker Build latest') {
           steps {
-            sh '''ls -hal
-pwd'''
+            dockerImageLatest = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
           }
         }
       }
@@ -33,7 +32,7 @@ pwd'''
     stage('Docker Run') {
       steps {
         script {
-          dockerContainer = dockerImage.run("-p8888:8080 --name spring-boot-demo-app-testing -e TZ=Europe/Amsterdam")
+          dockerContainer = dockerImageLatest.run("-p8888:8080 --name spring-boot-demo-app-testing -e TZ=Europe/Amsterdam")
         }
 
       }
