@@ -54,24 +54,28 @@ pipeline {
     }
     stage('Docker Commands') {
       steps {
-        sh 'docker manifest --help'
-      }
-    }
-  }
-  post {
-    always {
-      echo 'Stop Docker image'
-      script {
-        if (dockerContainerTest) {
-          dockerContainerTest.stop()
-        }
-        if (dockerContainerLatest) {
-          dockerContainerLatest.stop()
+        sh 'mkdir -p $HOME/.docker'
+        sh '''echo \'{
+"experimental": "enabled"
+}\' | tee $HOME/.docker/config.json'''
+          sh 'docker manifest --help'
         }
       }
+    }
+    post {
+      always {
+        echo 'Stop Docker image'
+        script {
+          if (dockerContainerTest) {
+            dockerContainerTest.stop()
+          }
+          if (dockerContainerLatest) {
+            dockerContainerLatest.stop()
+          }
+        }
 
+
+      }
 
     }
-
   }
-}
