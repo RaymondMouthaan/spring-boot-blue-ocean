@@ -23,7 +23,7 @@ pipeline {
     stage('Docker Run') {
       steps {
         script {
-          dockerContainer = dockerImage.run("-p8888:8080 --name spring-boot-demo-app-testing")
+          dockerContainer = dockerImage.run("-p8888:8080 --name spring-boot-demo-app-testing -e TZ=Europe/Amsterdam")
         }
 
       }
