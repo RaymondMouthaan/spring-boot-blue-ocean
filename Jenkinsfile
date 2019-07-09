@@ -12,7 +12,7 @@ pipeline {
                 sh 'mvn clean package -U'
             }
         }
-        stage('Docker Build Test') {
+        stage('Docker Build') {
             parallel {
                 stage('Docker Build Test') {
                     steps {
@@ -32,24 +32,25 @@ pipeline {
                 }
             }
         }
-        parallel {
-            stage('Docker Image Test') {
-                steps {
-                    script {
-                        dockerContainerTest = dockerImageTest.run("-p8888:8080 --name spring-boot-demo-app-test -e TZ=Europe/Amsterdam")
-                    }
+        stage('Docker Image') {
+            parallel {
+                stage('Docker Image Test') {
+                    steps {
+                        script {
+                            dockerContainerTest = dockerImageTest.run("-p8888:8080 --name spring-boot-demo-app-test -e TZ=Europe/Amsterdam")
+                        }
 
+                    }
+                }
+                stage('Docker Image Latest') {
+                    steps {
+                        script {
+                            dockerContainerLatest = dockerImageLatest.run("-p8899:8080 --name spring-boot-demo-app-latest -e TZ=Europe/Amsterdam")
+                        }
+
+                    }
                 }
             }
-            stage('Docker Image Latest') {
-                steps {
-                    script {
-                        dockerContainerLatest = dockerImageLatest.run("-p8899:8080 --name spring-boot-demo-app-latest -e TZ=Europe/Amsterdam")
-                    }
-
-                }
-            }
-
         }
 
     }
