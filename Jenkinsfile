@@ -54,6 +54,7 @@ pipeline {
     }
     stage('Docker Manifest') {
       steps {
+        sh 'env'
         sh 'mkdir -p $HOME/.docker'
         sh 'echo \'{"experimental": "enabled"}\' | tee $HOME/.docker/config.json'
         sh 'docker manifest --help'
