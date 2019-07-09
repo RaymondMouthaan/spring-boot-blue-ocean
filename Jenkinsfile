@@ -12,28 +12,14 @@ pipeline {
                 sh 'mvn clean package -U'
             }
         }
+
         stage('Docker Build') {
-//            parallel {
-//                stage('Docker Build') {
-//                    steps {
-//                        script {
-//                            dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
-//                        }
-//
-//                    }
-//                }
-//                stage('Test') {
-                    agent {
-                        dockerfile {
-                            filename 'Dockerfile'
-//                            args '-v /tmp:/tmp'
-                        }
-                    }
-                    steps {
-                        sh 'pwd'
-                    }
-//                }
-//            }
+            steps {
+                script {
+                    dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
+                }
+
+            }
         }
     }
 }
