@@ -13,11 +13,21 @@ pipeline {
       }
     }
     stage('Docker Build') {
-      steps {
-        script {
-          dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
-        }
+      parallel {
+        stage('Docker Build') {
+          steps {
+            script {
+              dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
+            }
 
+          }
+        }
+        stage('Test') {
+          steps {
+            sh '''ls -hal
+pwd'''
+          }
+        }
       }
     }
     stage('Docker Run') {
