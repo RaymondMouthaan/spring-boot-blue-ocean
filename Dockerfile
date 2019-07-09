@@ -2,7 +2,7 @@ FROM amd64/openjdk:11-jre-slim
 
 RUN sh -c 'ls -al /tmp'
 
-COPY target/spring-boot-demo-0.0.1-SNAPSHOT.jar app.jar
+COPY ./target/spring-boot-demo-0.0.1-SNAPSHOT.jar app.jar
 RUN sh -c 'touch /app.jar'
 
 EXPOSE 8080
