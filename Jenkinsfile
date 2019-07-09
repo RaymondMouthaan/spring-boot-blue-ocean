@@ -12,31 +12,5 @@ pipeline {
                 sh 'mvn clean package -U'
             }
         }
-        stage('Docker Build') {
-            parallel {
-                stage('Docker Build Test') {
-                    steps {
-                        script {
-                            dockerImageTest = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
-                        }
-
-                    }
-                }
-                stage('Docker Build latest') {
-                    steps {
-                        script {
-                            dockerImageLatest = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
-                        }
-                    }
-                }
-            }
-            stage('Docker Run') {
-                steps {
-                    script {
-                        dockerContainer = dockerImageLatest.run("-p8888:8080 --name spring-boot-demo-app-testing -e TZ=Europe/Amsterdam")
-                    }
-                }
-            }
-        }
     }
 }
