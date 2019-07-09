@@ -52,7 +52,7 @@ pipeline {
         }
       }
     }
-    stage('Docker Commands') {
+    stage('Docker Manifest') {
       steps {
         sh 'mkdir -p $HOME/.docker'
         sh 'echo \'{"experimental": "enabled"}\' | tee $HOME/.docker/config.json'
