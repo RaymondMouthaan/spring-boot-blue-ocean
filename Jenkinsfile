@@ -32,5 +32,13 @@ pipeline {
         }
       }
     }
+    stage('Docker Image Test') {
+      steps {
+        script {
+          dockerContainerTest = dockerImageTest.run("-p8888:8080 --name spring-boot-demo-app-testing -e TZ=Europe/Amsterdam")
+        }
+
+      }
+    }
   }
 }
