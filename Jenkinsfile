@@ -13,27 +13,27 @@ pipeline {
             }
         }
         stage('Docker Build') {
-            parallel {
-                stage('Docker Build') {
-                    steps {
-                        script {
-                            dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
-                        }
-
-                    }
-                }
+//            parallel {
+//                stage('Docker Build') {
+//                    steps {
+//                        script {
+//                            dockerImage = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
+//                        }
+//
+//                    }
+//                }
                 stage('Test') {
                     agent {
                         dockerfile {
                             filename 'Dockerfile'
-                            args '-v /tmp:/tmp'
+//                            args '-v /tmp:/tmp'
                         }
                     }
                     steps {
                         sh 'pwd'
                     }
                 }
-            }
+//            }
         }
     }
 }
