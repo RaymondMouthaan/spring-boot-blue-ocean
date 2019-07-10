@@ -57,7 +57,7 @@ pipeline {
         sh 'mkdir -p $HOME/.docker'
         sh 'echo \'{"experimental": "enabled"}\' | tee $HOME/.docker/config.json'
         sh 'docker manifest --help'
-        sh 'docker container ls'
+        sh 'docker ps -a'
       }
     }
     stage('A') {
