@@ -1,79 +1,80 @@
 pipeline {
-  agent {
-    docker {
-      image 'maven:3.6.1-jdk-11-slim'
-      args '-v /Users/raymondmouthaan/.m2:/root/.m2'
-    }
+    agent {
+        docker {
+            image 'maven:3.6.1-jdk-11-slim'
+            args '-v /Users/raymondmouthaan/.m2:/root/.m2'
+        }
 
-  }
-  stages {
-    stage('Build') {
-      steps {
-        sh 'mvn clean package -U'
-      }
     }
-    stage('Docker Build') {
-      parallel {
-        stage('Docker Build Test') {
-          steps {
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -U'
+            }
+        }
+        stage('Docker Build') {
+            parallel {
+                stage('Docker Build amd64') {
+                    steps {
+                        script {
+                            dockerImageAmd64 = docker.build("raymondmm/spring-boot-demo-blue-ocean:amd64", "-f Dockerfile.amd64 .")
+                        }
+
+                    }
+                }
+                stage('Docker Build arm32v7') {
+                    steps {
+                        script {
+                            dockerImageArm32v7 = docker.build("raymondmm/spring-boot-demo-blue-ocean:arm32v7", "-f Dockerfile.arm32v7 .")
+                        }
+
+                    }
+                }
+            }
+        }
+        stage('Docker Image') {
+            parallel {
+                stage('Docker Image amd64') {
+                    steps {
+                        script {
+                            dockerContainerAmd64 = dockerImageAmd64.run("-p8888:8080 --name spring-boot-demo-app-amd64 -e TZ=Europe/Amsterdam")
+                        }
+
+                    }
+                }
+                stage('Docker Image arm32v7') {
+                    steps {
+                        script {
+                            dockerContainerArm32v7 = dockerImageArm32v7.run("-p8899:8080 --name spring-boot-demo-app-arm32v7 -e TZ=Europe/Amsterdam")
+                        }
+
+                    }
+                }
+            }
+        }
+        stage('Docker Manifest') {
+            steps {
+                sh 'mkdir -p $HOME/.docker'
+                sh 'echo \'{"experimental": "enabled"}\' | tee $HOME/.docker/config.json'
+                sh 'docker manifest --help'
+                sh 'docker container ls'
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Stop Docker image'
             script {
-              dockerImageTest = docker.build("raymondmm/spring-boot-demo-blue-ocean:test", ".")
+                if (dockerContainerAmd64) {
+                    dockerContainerAmd64.stop()
+                }
+                if (dockerContainerArm32v7) {
+                    dockerContainerArm32v7.stop()
+                }
             }
 
-          }
-        }
-        stage('Docker Build Latest') {
-          steps {
-            script {
-              dockerImageLatest = docker.build("raymondmm/spring-boot-demo-blue-ocean:latest", ".")
-            }
 
-          }
         }
-      }
-    }
-    stage('Docker Image') {
-      parallel {
-        stage('Docker Image Test') {
-          steps {
-            script {
-              dockerContainerTest = dockerImageTest.run("-p8888:8080 --name spring-boot-demo-app-test -e TZ=Europe/Amsterdam")
-            }
-
-          }
-        }
-        stage('Docker Image Latest') {
-          steps {
-            script {
-              dockerContainerLatest = dockerImageLatest.run("-p8899:8080 --name spring-boot-demo-app-latest -e TZ=Europe/Amsterdam")
-            }
-
-          }
-        }
-      }
-    }
-    stage('Docker Manifest') {
-      steps {
-        sh 'mkdir -p $HOME/.docker'
-        sh 'echo \'{"experimental": "enabled"}\' | tee $HOME/.docker/config.json'
-        sh 'docker manifest --help'
-      }
-    }
-  }
-  post {
-    always {
-      echo 'Stop Docker image'
-      script {
-        if (dockerContainerTest) {
-          dockerContainerTest.stop()
-        }
-        if (dockerContainerLatest) {
-          dockerContainerLatest.stop()
-        }
-      }
-
 
     }
-
-  }
 }
