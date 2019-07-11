@@ -100,18 +100,21 @@ pipeline {
         stage('A') {
 
             parallel {
-                agent any
+
                 stage('A') {
+                    agent any
                     steps {
                         sh 'echo A'
                     }
                 }
                 stage('B') {
+                    agent any
                     steps {
                         sh 'echo B'
                     }
                 }
                 stage('C') {
+                    agent any
                     steps {
                         sh 'echo C'
                     }
@@ -121,18 +124,21 @@ pipeline {
         stage('A1') {
 
             parallel {
-                agent any
+
                 stage('A1') {
+                    agent any
                     steps {
                         sh 'echo A1'
                     }
                 }
                 stage('B1') {
+                    agent any
                     steps {
                         sh 'echo B1'
                     }
                 }
                 stage('C1') {
+                    agent any
                     steps {
                         sh 'echo C1'
                     }
