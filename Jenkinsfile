@@ -89,6 +89,7 @@ pipeline {
                     image 'docker'
                 }
             }
+            options { skipDefaultCheckout() }
             steps {
                 sh 'mkdir -p $HOME/.docker'
                 sh 'echo \'{"experimental": "enabled"}\' | tee $HOME/.docker/config.json'
@@ -97,6 +98,7 @@ pipeline {
             }
         }
         stage('A') {
+            agent any
             parallel {
                 stage('A') {
                     steps {
@@ -116,6 +118,7 @@ pipeline {
             }
         }
         stage('A1') {
+            agent any
             parallel {
                 stage('A1') {
                     steps {
