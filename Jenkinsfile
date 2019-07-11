@@ -21,6 +21,7 @@ pipeline {
                         docker {
                             image 'docker'
                         }
+                        options { skipDefaultCheckout() }
                     }
                     steps {
                         sh 'ls -al'
