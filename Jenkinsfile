@@ -1,5 +1,9 @@
 pipeline {
     agent none
+    environment {
+        LIN_WORKSPACE = ""
+    }
+
     stages {
 
         stage('Build') {
@@ -8,6 +12,9 @@ pipeline {
                     image 'maven:3.6.1-jdk-11-slim'
                     args '-v /Users/raymondmouthaan/.m2:/root/.m2'
                 }
+            }
+            script {
+                LIN_WORKSPACE = WORKSPACE
             }
             steps {
                 sh 'mvn clean package -U'
@@ -20,18 +27,18 @@ pipeline {
                     agent {
                         docker {
                             image 'docker'
-                            reuseNode true
                         }
                     }
                     options { skipDefaultCheckout() }
 
                     steps {
-                        sh 'ls -al'
-                        sh 'pwd'
-                        script {
-                            dockerImageAmd64 = docker.build("raymondmm/spring-boot-demo-blue-ocean:amd64", "-f Dockerfile.amd64 .")
+                        dir(LIN_WORKSPACE) {
+                            sh 'ls -al'
+                            sh 'pwd'
+                            script {
+                                dockerImageAmd64 = docker.build("raymondmm/spring-boot-demo-blue-ocean:amd64", "-f Dockerfile.amd64 .")
+                            }
                         }
-
                     }
                 }
                 stage('Docker Build arm32v7') {
@@ -44,12 +51,13 @@ pipeline {
                     options { skipDefaultCheckout() }
 
                     steps {
-                        sh 'ls -al'
-                        sh 'pwd'
-                        script {
-                            dockerImageArm32v7 = docker.build("raymondmm/spring-boot-demo-blue-ocean:arm32v7", "-f Dockerfile.arm32v7 .")
+                        dir(LIN_WORKSPACE) {
+                            sh 'ls -al'
+                            sh 'pwd'
+                            script {
+                                dockerImageArm32v7 = docker.build("raymondmm/spring-boot-demo-blue-ocean:arm32v7", "-f Dockerfile.arm32v7 .")
+                            }
                         }
-
                     }
                 }
             }
