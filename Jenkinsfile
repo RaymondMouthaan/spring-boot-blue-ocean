@@ -37,6 +37,7 @@ pipeline {
                     agent {
                         docker {
                             image 'docker'
+                            reuseNode true
                         }
                     }
                     options { skipDefaultCheckout() }
