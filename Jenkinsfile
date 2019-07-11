@@ -84,6 +84,11 @@ pipeline {
             }
         }
         stage('Docker Manifest') {
+            agent {
+                docker {
+                    image 'docker'
+                }
+            }
             steps {
                 sh 'mkdir -p $HOME/.docker'
                 sh 'echo \'{"experimental": "enabled"}\' | tee $HOME/.docker/config.json'
