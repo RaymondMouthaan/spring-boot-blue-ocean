@@ -13,10 +13,11 @@ pipeline {
                     args '-v /Users/raymondmouthaan/.m2:/root/.m2'
                 }
             }
-            script {
-                LIN_WORKSPACE = WORKSPACE
-            }
+
             steps {
+                script {
+                    LIN_WORKSPACE = WORKSPACE
+                }
                 sh 'mvn clean package -U'
             }
         }
