@@ -32,7 +32,14 @@ pipeline {
                     }
                 }
                 stage('Docker Build arm32v7') {
+                    agent {
+                        docker {
+                            image 'docker'
+                        }
+                    }
                     steps {
+                        sh 'ls -al'
+                        sh 'pwd'
                         script {
                             dockerImageArm32v7 = docker.build("raymondmm/spring-boot-demo-blue-ocean:arm32v7", "-f Dockerfile.arm32v7 .")
                         }
