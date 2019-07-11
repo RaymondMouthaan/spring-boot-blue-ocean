@@ -148,6 +148,7 @@ pipeline {
     }
     post {
         always {
+            agent any
             echo 'Stop Docker image'
             script {
                 if (dockerContainerAmd64) {
@@ -157,8 +158,6 @@ pipeline {
                     dockerContainerArm32v7.stop()
                 }
             }
-
-
         }
 
     }
