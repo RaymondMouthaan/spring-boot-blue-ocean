@@ -98,8 +98,9 @@ pipeline {
             }
         }
         stage('A') {
-            agent any
+
             parallel {
+                agent any
                 stage('A') {
                     steps {
                         sh 'echo A'
@@ -118,8 +119,9 @@ pipeline {
             }
         }
         stage('A1') {
-            agent any
+
             parallel {
+                agent any
                 stage('A1') {
                     steps {
                         sh 'echo A1'
