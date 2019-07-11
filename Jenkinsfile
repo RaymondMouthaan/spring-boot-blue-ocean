@@ -21,8 +21,9 @@ pipeline {
                         docker {
                             image 'docker'
                         }
-                        options { skipDefaultCheckout() }
                     }
+                    options { skipDefaultCheckout() }
+
                     steps {
                         sh 'ls -al'
                         sh 'pwd'
@@ -38,6 +39,8 @@ pipeline {
                             image 'docker'
                         }
                     }
+                    options { skipDefaultCheckout() }
+
                     steps {
                         sh 'ls -al'
                         sh 'pwd'
