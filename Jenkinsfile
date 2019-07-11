@@ -23,6 +23,8 @@ pipeline {
                         }
                     }
                     steps {
+                        sh 'ls -al'
+                        sh 'pwd'
                         script {
                             dockerImageAmd64 = docker.build("raymondmm/spring-boot-demo-blue-ocean:amd64", "-f Dockerfile.amd64 .")
                         }
