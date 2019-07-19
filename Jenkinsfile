@@ -17,6 +17,7 @@ pipeline {
 
             steps {
                 script {
+                    echo $WORKSPACE
                     LIN_WORKSPACE = WORKSPACE
                 }
                 sh 'mvn clean package -U'
