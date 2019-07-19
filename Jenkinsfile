@@ -51,16 +51,17 @@ pipeline {
                             image 'docker'
                         }
                     }
-                    options { skipDefaultCheckout() }
+//                    options { skipDefaultCheckout() }
 
                     steps {
-                        dir(LIN_WORKSPACE) {
+                        unstash 'scm'
+//                        dir(LIN_WORKSPACE) {
                             sh 'ls -al'
                             sh 'pwd'
                             script {
                                 dockerImageAmd64 = docker.build("raymondmm/spring-boot-demo-blue-ocean:amd64", "-f Dockerfile.amd64 .")
                             }
-                        }
+//                        }
                     }
                 }
                 stage('Docker Build arm32v7') {
