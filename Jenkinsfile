@@ -32,7 +32,7 @@ pipeline {
 
         stage('Build in Docker') {
             steps {
-                unstash 'scm'
+//                unstash 'scm'
                 script{
                     docker.image('maven:3.6.1-jdk-11-slim').inside{
                         sh 'pwd'
