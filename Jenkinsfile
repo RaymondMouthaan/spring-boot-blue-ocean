@@ -32,11 +32,8 @@ pipeline {
 
         stage('Build in Docker') {
             steps {
-//                unstash 'scm'
                 script{
                     docker.image('maven:3.6.1-jdk-11-slim').inside{
-                        sh 'pwd'
-                        sh 'mvn -v'
                         sh 'mvn clean install'
                     }
                 }
@@ -54,7 +51,7 @@ pipeline {
 //                    options { skipDefaultCheckout() }
 
                     steps {
-                        unstash 'scm'
+//                        unstash 'scm'
 //                        dir(LIN_WORKSPACE) {
                             sh 'ls -al'
                             sh 'pwd'
