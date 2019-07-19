@@ -10,25 +10,31 @@ pipeline {
 //            agent {
 //                docker {
 //                    image 'maven:3.6.1-jdk-11-slim'
-////                    args '-v /Users/raymondmouthaan/.m2:/root/.m2'
+//                    args '-v /Users/raymondmouthaan/.m2:/root/.m2'
 //                }
 //            }
-////            options { skipDefaultCheckout() }
+//            options { skipDefaultCheckout() }
 //
 //            steps {
-//                unstash 'scm'
 //                script {
-//
-//                    echo WORKSPACE
 //                    LIN_WORKSPACE = WORKSPACE
-//                    sh 'mvn clean package -U'
 //                }
+//                sh 'mvn clean package -U'
+//            }
+//
+//            post {
+//                success {
+//                    // we only worry about archiving the jar file if the build steps are successful
+//                    archiveArtifacts(artifacts: '**/target/*.jar', allowEmptyArchive: true)
+//                }
+//            }
 //        }
+
         stage('Build in Docker') {
             steps {
                 unstash 'scm'
-                script {
-                    docker.image('maven:3.6.1-jdk-11-slim').inside {
+                script{
+                    docker.image('maven:3.6.1-jdk-11-slim').inside{
                         sh 'pwd'
                         sh 'mvn -v'
                         sh 'mvn clean install'
@@ -36,14 +42,6 @@ pipeline {
                 }
             }
         }
-
-        post {
-            success {
-                // we only worry about archiving the jar file if the build steps are successful
-                archiveArtifacts(artifacts: '**/target/*.jar', allowEmptyArchive: true)
-            }
-        }
-
 
         stage('Docker Build') {
             parallel {
