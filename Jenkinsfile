@@ -10,7 +10,7 @@ pipeline {
             agent {
                 docker {
                     image 'maven:3.6.1-jdk-11-slim'
-                    args '-v /Users/raymondmouthaan/.m2:/root/.m2'
+//                    args '-v /Users/raymondmouthaan/.m2:/root/.m2'
                 }
             }
             options { skipDefaultCheckout() }
@@ -105,54 +105,54 @@ pipeline {
                 sh 'docker ps -a'
             }
         }
-        stage('A') {
-
-            parallel {
-
-                stage('A') {
-                    agent any
-                    steps {
-                        sh 'echo A'
-                    }
-                }
-                stage('B') {
-                    agent any
-                    steps {
-                        sh 'echo B'
-                    }
-                }
-                stage('C') {
-                    agent any
-                    steps {
-                        sh 'echo C'
-                    }
-                }
-            }
-        }
-        stage('A1') {
-
-            parallel {
-
-                stage('A1') {
-                    agent any
-                    steps {
-                        sh 'echo A1'
-                    }
-                }
-                stage('B1') {
-                    agent any
-                    steps {
-                        sh 'echo B1'
-                    }
-                }
-                stage('C1') {
-                    agent any
-                    steps {
-                        sh 'echo C1'
-                    }
-                }
-            }
-        }
+//        stage('A') {
+//
+//            parallel {
+//
+//                stage('A') {
+//                    agent any
+//                    steps {
+//                        sh 'echo A'
+//                    }
+//                }
+//                stage('B') {
+//                    agent any
+//                    steps {
+//                        sh 'echo B'
+//                    }
+//                }
+//                stage('C') {
+//                    agent any
+//                    steps {
+//                        sh 'echo C'
+//                    }
+//                }
+//            }
+//        }
+//        stage('A1') {
+//
+//            parallel {
+//
+//                stage('A1') {
+//                    agent any
+//                    steps {
+//                        sh 'echo A1'
+//                    }
+//                }
+//                stage('B1') {
+//                    agent any
+//                    steps {
+//                        sh 'echo B1'
+//                    }
+//                }
+//                stage('C1') {
+//                    agent any
+//                    steps {
+//                        sh 'echo C1'
+//                    }
+//                }
+//            }
+//        }
     }
     post {
         always {
